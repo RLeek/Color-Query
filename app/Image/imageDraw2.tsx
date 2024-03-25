@@ -5,7 +5,7 @@ import { memo, useEffect, useRef } from "react";
 export default memo(function ImageDraw2({ fileName, command }: { fileName: File|null, command:Function }) {
 
   const canvasRef = useRef(null)
-  var image = new Image();
+  
 
 
   function rgb2hsv(r:number,g:number,b:number) {
@@ -26,6 +26,7 @@ export default memo(function ImageDraw2({ fileName, command }: { fileName: File|
     if (canvas && fileName) {
         //@ts-ignore
         const ctx = canvas.getContext('2d')
+        var image = new Image();
         image.onload = function() {
             ctx.canvas.width = image.width
             ctx.canvas.height = image.height

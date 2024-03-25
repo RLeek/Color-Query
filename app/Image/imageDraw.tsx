@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 export default function ImageDraw({ fileName, redRange, greenRange, blueRange }: { fileName: File|null, redRange:number[], greenRange:number[], blueRange:number[] }) {
 
   const canvasRef = useRef(null)
-  var image = new Image();
+  var image = new Image(1);
 
   useEffect(()=> {
     const canvas = canvasRef.current
