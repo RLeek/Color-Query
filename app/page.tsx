@@ -3,27 +3,27 @@
 import { useState } from "react";
 import ImageUpload from "./Image/imageUpload";
 import ImageDraw from "./Image/imageDraw";
-import getCompiledFunction from "./Compiler/parser";
+import validateQuery from "./Compiler/parser";
 
 export default function Home() {
   const [Image, setImage] = useState<File|null>(null);
   const [text, setText] = useState<string>("pixels");
-  const [query, setQuery] = useState<Function>(()=>{return (value:number, hue:number, saturation:number) => {return [value, hue, saturation]}}); //value,hue,saturation
+  const [query, setQuery] = useState<string>("pixels");
   const [error, setError] = useState<string>();
 
 
   function submit() {
-    var result = getCompiledFunction(text);
-    if (result instanceof Function) {
-      setQuery(()=>{return getCompiledFunction(text)});
+    var result = validateQuery(text);
+    if (result.success) {
+      setQuery(result.message);
       setError("");
     } else {
-      setError(result);
+      setError(result.message);
     }
   }
 
   function reset() {
-    setQuery(()=>{return (value:number, hue:number, saturation:number) => {return [value, hue, saturation]} });
+    setQuery("pixels");
   }
 
   function clear() {

@@ -218,14 +218,22 @@ s.addOperation(
 );
 
 
+type parseResult = {
+    success: boolean
+    message: string 
+}
 
-export default function getCompiledFunction(text:string):Function | string {
+export function getCompiledFunction(text:string) {
+    return s(colorQueryGrammar.match(text)).eval();    
+}
+
+export default function validateQuery(text:string): parseResult {
     var colorQueryTree = colorQueryGrammar.match(text);
     if (colorQueryTree.succeeded()) {
-        return (s(colorQueryTree).eval());
+        return {success: true, message: text};
     } else if (colorQueryTree.message) {
-        return colorQueryTree.message;
+        return {success: true, message:colorQueryTree.message}
     } else {
-        return "Unexpected query error"
+        return {success: true, message: "Unexpected query error"}
     }
 }
