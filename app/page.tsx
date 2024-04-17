@@ -11,7 +11,6 @@ export default function Home() {
   const [query, setQuery] = useState<string>("pixels");
   const [error, setError] = useState<string>();
 
-
   function submit() {
     var result = validateQuery(text);
     if (result.success) {
@@ -29,6 +28,7 @@ export default function Home() {
   function clear() {
     setImage(null);
   }
+
 
   //@ts-ignore
   return (
