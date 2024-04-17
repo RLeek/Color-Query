@@ -30,22 +30,26 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
 
         console.log(imageWidth)
         console.log(imageHeight)
-
-        offscreenCtx.canvas.width = imageWidth
-        offscreenCtx.canvas.height = imageHeight
-        offscreenCtx.drawImage(image, 0, 0, imageWidth, imageHeight)
-        var imageData = offscreenCtx?.getImageData(0,0, imageWidth, imageHeight).data
-        console.log(imageData)
-        worker.postMessage({imageData: imageData, command:command})
+        
+        if (offscreenCtx) {
+          offscreenCtx.canvas.width = imageWidth
+          offscreenCtx.canvas.height = imageHeight
+          offscreenCtx.drawImage(image, 0, 0, imageWidth, imageHeight)
+          var imageData = offscreenCtx?.getImageData(0,0, imageWidth, imageHeight).data
+          console.log(imageData)
+          worker.postMessage({imageData: imageData, command:command})  
+        }
       }
       image.src = URL.createObjectURL(fileName)
 
       worker.onmessage = function(e) {
-        ctx.canvas.width = imageWidth
-        ctx.canvas.height = imageHeight
-        var imageData = ctx?.createImageData(imageWidth, imageHeight)
-        imageData?.data.set(e.data)
-        ctx.putImageData(imageData, 0, 0)
+        if (ctx) {
+          ctx.canvas.width = imageWidth
+          ctx.canvas.height = imageHeight
+          var imageData = ctx?.createImageData(imageWidth, imageHeight)
+          imageData?.data.set(e.data)
+          ctx.putImageData(imageData, 0, 0)  
+        }
       }
     }
   })
