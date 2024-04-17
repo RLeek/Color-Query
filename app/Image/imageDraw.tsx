@@ -25,13 +25,13 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
         offscreen.height = image.height
         imageWidth = image.width
         imageHeight = image.height
+        offscreenCtx?.drawImage(image, 0, 0)
         if (image.width >= screenWidth) {
           const ratio = imageHeight/imageWidth
           imageWidth = screenWidth
           imageHeight = (ratio*imageWidth)
+          resample_single(offscreen, imageWidth, imageHeight, true)
         }
-        offscreenCtx?.drawImage(image, 0, 0)
-        resample_single(offscreen, imageWidth, imageHeight, true)
         
         if (offscreenCtx) {
           var imageData = offscreenCtx?.getImageData(0,0, imageWidth, imageHeight).data
