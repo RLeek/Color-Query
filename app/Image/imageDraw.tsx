@@ -14,16 +14,16 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
   useEffect(()=> {
     const canvas = canvasRef.current
     if (canvas && fileName && window.Worker) {
-      const ctx = canvas.getContext('2d')
-      if (ctx) {
-        ctx.imageSmoothingEnabled = true
-        ctx.imageSmoothingQuality = "high"
-      }
 
       const worker = new Worker(new URL("../canvasWorker/worker.ts", import.meta.url))
       var image = new Image();
       const offscreen = new OffscreenCanvas(image.width,image.height)
       var offscreenCtx = offscreen.getContext('2d')
+      if (offscreenCtx) {
+        offscreenCtx.imageSmoothingEnabled = true
+        offscreenCtx.imageSmoothingQuality = "high"
+      }
+
       image.onload = function () {
         imageWidth = image.width
         imageHeight = image.height
