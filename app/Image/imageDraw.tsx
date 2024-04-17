@@ -6,7 +6,7 @@ import { memo, useEffect } from "react";
 export default memo(function ImageDraw({ fileName, command }: { fileName: File|null, command: string}) {
 
   const canvasRef: RefObject<HTMLCanvasElement> = React.createRef();
-  const screenWidth = window.screen.width -50
+  const screenWidth = window.screen.width -30
   var imageWidth = 0
   var imageHeight = 0
 
