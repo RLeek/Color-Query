@@ -52,7 +52,7 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
     }
   })
 
-  function resample_single(canvas, width, height, resize_canvas) {
+  function resample_single(canvas:OffscreenCanvas , width:number, height:number, resize_canvas:boolean) {
     var width_source = canvas.width;
     var height_source = canvas.height;
     width = Math.round(width);
@@ -66,7 +66,9 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
     console.log(width_source)
     console.log(height_source)
     var ctx = canvas.getContext("2d");
+    //@ts-ignore
     var img = ctx.getImageData(0, 0, width_source, height_source);
+    //@ts-ignore
     var img2 = ctx.createImageData(width, height);
     var data = img.data;
     var data2 = img2.data;
@@ -118,16 +120,19 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
             data2[x2 + 3] = gx_a / weights_alpha;
         }
     }
-    //clear and resize canvas
-    if (resize_canvas === true) {
+    if (ctx) {
+
+      //clear and resize canvas
+      if (resize_canvas === true) {
         canvas.width = width;
         canvas.height = height;
-    } else {
+      } else {
         ctx.clearRect(0, 0, width_source, height_source);
+      }
+      
+      //draw
+      ctx.putImageData(img2, 0, 0);
     }
-
-    //draw
-    ctx.putImageData(img2, 0, 0);
   }
 
 
