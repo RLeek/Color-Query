@@ -15,6 +15,11 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
     const canvas = canvasRef.current
     if (canvas && fileName && window.Worker) {
       const ctx = canvas.getContext('2d')
+      if (ctx) {
+        ctx.imageSmoothingEnabled = true
+        ctx.imageSmoothingQuality = "high"
+      }
+
       const worker = new Worker(new URL("../canvasWorker/worker.ts", import.meta.url))
       var image = new Image();
       const offscreen = new OffscreenCanvas(image.width,image.height)
@@ -27,16 +32,12 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
           imageWidth = screenWidth
           imageHeight = (ratio*imageWidth)
         }
-
-        console.log(imageWidth)
-        console.log(imageHeight)
         
         if (offscreenCtx) {
           offscreenCtx.canvas.width = imageWidth
           offscreenCtx.canvas.height = imageHeight
           offscreenCtx.drawImage(image, 0, 0, imageWidth, imageHeight)
           var imageData = offscreenCtx?.getImageData(0,0, imageWidth, imageHeight).data
-          console.log(imageData)
           worker.postMessage({imageData: imageData, command:command})  
         }
       }
