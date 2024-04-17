@@ -14,6 +14,7 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
   useEffect(()=> {
     const canvas = canvasRef.current
     if (canvas && fileName && window.Worker) {
+      const ctx = canvas.getContext('2d')
 
       const worker = new Worker(new URL("../canvasWorker/worker.ts", import.meta.url))
       var image = new Image();
@@ -23,7 +24,6 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
         offscreenCtx.imageSmoothingEnabled = true
         offscreenCtx.imageSmoothingQuality = "high"
       }
-
       image.onload = function () {
         imageWidth = image.width
         imageHeight = image.height
