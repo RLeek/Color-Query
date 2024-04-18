@@ -232,8 +232,8 @@ export default function validateQuery(text:string): parseResult {
     if (colorQueryTree.succeeded()) {
         return {success: true, message: text};
     } else if (colorQueryTree.message) {
-        return {success: true, message:colorQueryTree.message}
+        return {success: false, message: colorQueryTree.message}
     } else {
-        return {success: true, message: "Unexpected query error"}
+        return {success: false, message: "Unexpected query error"}
     }
 }

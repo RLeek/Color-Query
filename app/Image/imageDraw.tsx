@@ -139,7 +139,7 @@ export default memo(function ImageDraw({ fileName, command }: { fileName: File|n
   return (
     <>
       
-        <canvas ref={canvasRef}  className="pt-8">
+        <canvas ref={canvasRef}  className="mt-8 border-2 border-black">
 
         </canvas>
 
