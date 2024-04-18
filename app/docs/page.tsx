@@ -25,7 +25,7 @@ export default function Home() {
             <div className= "bg-slate-100 p-2 mt-2 mb-2">
                 <code>pixels</code>
                 <br/>
-                <code> | saturation = 0.5 if saturation > 0.5</code>
+                <code> | saturation = 0.5 if saturation {'>'} 0.5</code>
                 <br/>
                 <code> | value = 0.5 </code>
             </div>
