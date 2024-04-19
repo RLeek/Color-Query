@@ -5,12 +5,12 @@ export default function Home() {
   //@ts-ignore
   return (
     <main className="flex flex-col justify-center place-items-center">
-        <div className = "w-10/12 md:w-144 xl:w-160 mt-4 px-2 border-2 border-black bg-white pb-4">
+        <div className = "w-10/12 md:w-144 xl:w-160 mt-4 px-2 border-2 border-black bg-white pb-4 mb-8">
             <h1 className = "text-3xl font-semibold pt-4 py-2">ColorQuery overview</h1>
                 ColorQuery provides a simple DSL for querying and manipulating the HSV values of images. The intent is to provide a quick and simplified tool for understanding how the colors of different images work. 
             <h1 className = "text-3xl font-semibold pt-4 py-2">ColorQuery language (CQL) overview</h1>
-            CQL queries consist of a series of statements executed one after the other. The first statement in a CQL query is always 
-            <code className="bg-slate-100 px-1"> pixels</code>
+            CQL queries consist of a series of statements executed one after the other. The first statement in a CQL query is always {' '}
+            <code className="bg-slate-100 px-1"> pixels</code>.
             <br/>
             <div className= "bg-slate-100 p-2 mt-2 mb-2">
                 <code>pixels</code>
@@ -41,14 +41,37 @@ export default function Home() {
             <br/>
             <br/>
 
-            Boolean expressions support the standard comparison operators <code className="bg-slate-100 px-1">={'>'}</code>,<code className="bg-slate-100 px-1">{'>'}</code>,<code className="bg-slate-100 px-1">{'<'}</code>,<code className="bg-slate-100 px-1">{'<='}</code> and <code className="bg-slate-100 px-1">{'=='}</code>. The standard boolean operators 
+            Boolean expressions support the standard comparison operators <code className="bg-slate-100 px-1">={'>'}</code>,<code className="bg-slate-100 px-1">{'>'}</code>,<code className="bg-slate-100 px-1">{'<'}</code>,<code className="bg-slate-100 px-1">{'<='}</code> and <code className="bg-slate-100 px-1">{'=='}</code> between numerical expressions. The standard boolean operators 
             <code className="bg-slate-100 px-1">{'and'}</code>,<code className="bg-slate-100 px-1">{'or'}</code> are also supported to combine these boolean expressions. Precedence using <code className="bg-slate-100 px-1">()</code> is also supported.
 
             <h2 className = "text-xl font-semibold py-2">Hue, Saturation and Value</h2> 
-
-
-
-
+            Hue, saturation and value each work on a limited scale.
+            <br/>
+            <br/>
+            <code className="bg-slate-100 px-1"> Hue</code> must be in the range [0, 360]
+            <br/>
+            <code className="bg-slate-100 px-1"> Saturation</code> must be in the range [0, 1]
+            <br/>
+            <code className="bg-slate-100 px-1"> Value</code> must be in the range [0, 1]
+            <br/>
+            <br/>
+            For the sake of simplicity this range limit is only applied after all the statements have been executed, and rounds the value to the closest valid value in the range. For example:
+            <br/>
+            <div className= "bg-slate-100 p-2 mt-2 mb-2">
+                <code>pixels</code>
+                <br/>
+                <code> | hue = hue + 180</code>
+            </div>
+             This query will add 180 to the hue, after which any hue greater than 360 will be rounded down to 360. Compare this to the following query:
+            <br/>
+            <div className= "bg-slate-100 p-2 mt-2 mb-2">
+            <code>pixels</code>
+                <br/>
+                <code> | hue = hue + 180</code>
+                <br/>
+                <code> | hue = hue - 360 if hue {'>'} 360</code>
+            </div>
+            This query will add 180 to the hue, resulting in some hue values being outside the valid range. This is followed by subtracting 360 to any hue value greater than 360. Only at this point will hue values outside the valid range be rounded to the closest valid value. Since we have already done this manually however, no hue values will be changed.
 
             <br/>
             <h1 className = "text-3xl font-semibold pt-4 py-2">FAQ</h1>
